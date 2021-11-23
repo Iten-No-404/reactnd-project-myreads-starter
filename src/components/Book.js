@@ -27,9 +27,14 @@ const Book = (props) => {
         <div className="book-top">
           <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: `url(${props.coverURL})` }}></div>
           <div className="book-shelf-changer">
-            <select onLoad={ () => {this.value = props.addrmfns[4]}} onChange={(e) => { change_list(e,props)}}>
-              <option value="move" disabled>Move to...</option>
-            {(props.addrmfns[4](props.id)==="currentlyReading")? 
+            <select value={props.addrmfns[4](props.id)} onChange={(e) => { change_list(e,props)}}>
+            <option value="move" disabled>Move to...</option>
+
+              <option value="currentlyReading">{(props.addrmfns[4](props.id)==="currentlyReading")?"\u2713 Currently Reading":"Currently Reading"}</option>
+              <option value="wantToRead">{(props.addrmfns[4](props.id)==="wantToRead")?"\u2713 Want to Read":"Want to Read"}</option>
+              <option value="read">{(props.addrmfns[4](props.id)==="read")?"\u2713 Read":"Read"}</option>
+              <option value="none">{(props.addrmfns[4](props.id)==="none")?"\u2713 None":"None"}</option>
+              {/*            {(props.addrmfns[4](props.id)==="currentlyReading")? 
             <option value="currentlyReading" selected>&#10003; Currently Reading</option>
             :<option value="currentlyReading" >Currently Reading</option>
             }
@@ -45,6 +50,7 @@ const Book = (props) => {
             <option value="none" selected>&#10003; None</option>
             :<option value="none">None</option>
             }
+               */}
             </select>
           </div>
         </div>
