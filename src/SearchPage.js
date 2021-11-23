@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import * as BooksAPI from './BooksAPI'
 import './App.css';
+import BookShelf from './components/BookShelf';
 
-const SearchPage = () => {
+const SearchPage = (props) => {
+  const [results, setResults] = useState([]);
     return (
         <div className="search-books">
         <div className="search-books-bar">
@@ -18,12 +21,31 @@ const SearchPage = () => {
               However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
               you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <input type="text" placeholder="Search by title or author"/>
+            <input type="text" onChange={(e) => {
+              BooksAPI.search(e.target.value).then( (result) =>
+              {
+                console.log(result);
+                var results_mod = [];
+                if(Array.isArray(result))
+                {
+                  for(var i=0; i< result.length; i++)
+                  {
+                    results_mod.push({
+                      "id": result[i].id,
+                      "title": result[i].title,
+                      "author": (Array.isArray(result[i].authors)) ? result[i].authors.join(', '): result[i].authors,
+                      "coverURL": (typeof result[i].imageLinks !== "undefined" && result[i].imageLinks.thumbnail !== null)? result[i].imageLinks.thumbnail: ""
+                        });
+                  }
+                }
+                setResults(results_mod);
+              })
+            }} placeholder="Search by title or author"/>
 
           </div>
         </div>
-        <div className="search-books-results">
-          <ol className="books-grid"></ol>
+        <div id="search-results" className="search-books-results">
+          <BookShelf key="0" shelfTitle=" " books={results} addrmfns={ props.addrmfns }/>
         </div>
       </div>
     )
