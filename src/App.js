@@ -16,7 +16,6 @@ class App extends Component {
       }
     }
     BooksAPI.getAll().then((result) => {
-      console.log(result);
       for(var i=0; i< result.length; i++)
       {
         const myBook = {
@@ -75,7 +74,6 @@ class App extends Component {
           }
         }))
         BooksAPI.update(book,"read");
-        //console.log(this.state)
       }
     }
     rmFromBooklists = (book) => {

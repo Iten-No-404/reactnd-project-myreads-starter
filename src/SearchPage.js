@@ -24,7 +24,8 @@ const SearchPage = (props) => {
             <input type="text" onChange={(e) => {
               BooksAPI.search(e.target.value).then( (result) =>
               {
-                console.log(result);
+                if(result != null)
+                  {
                 var results_mod = [];
                 if(Array.isArray(result))
                 {
@@ -39,7 +40,10 @@ const SearchPage = (props) => {
                   }
                 }
                 setResults(results_mod);
-              })
+                  }
+                  else
+                  setResults([]);
+              }, () => setResults([])).catch(() => setResults([]));
             }} placeholder="Search by title or author"/>
 
           </div>
